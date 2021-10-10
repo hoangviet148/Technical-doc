@@ -1,3 +1,13 @@
+```
+Khái niệm cần tìm hiểu: 
+- Kubeadm, etcd, kubectl, kubelet
+- Nodes
+- Pod
+- ReplicationController / ReplicaSet / Deployment: quản lý pod
+- ConfigMap & Secret
+- Volume
+- Service 
+```
 # **1. Khái niệm**
 - Kubernetes là một nền tảng nguồn mở, khả chuyển, có thể mở rộng để quản lý các ứng dụng được đóng gói và các service, giúp thuận lợi trong việc cấu hình và tự động hoá việc triển khai ứng dụng.
 - Kubernetes là một hệ sinh thái lớn và phát triển nhanh chóng. Các dịch vụ, sự hỗ trợ và công cụ có sẵn rộng rãi.
@@ -22,18 +32,23 @@ thông tin của 1 ứng dụng không thể bị truy cập tự do bởi ứng
 
 ## 2.2. Tại sao cần K8s
 - Sử phát triển của triển khai phần mềm sử dụng container => cần một công cụ mạnh mẽ giúp quản lý container, để chất lượng hệ thống được tốt nhất (xử lý downtime, nhân rộng, cung cấp mẫu deployment)
+- Portability: tương thích rộng rãi (aws, gg, ...)
+- Scability: mở rộng linh hoạt
+- High Avaibility: Khả năng sẵn sàng cao. hệ thống luôn được duy trì, ít downtime
+- Cộng đồng khổng lồ
 - Một số tính năng của K8s
-   - Service discovery và cân bằng tải: dẫn request của các ứng dụng đến đúng container
-   - Điều phối bộ nhớ
-   - Tự động rollouts và rollbacks
-   - Đóng gói tự động
-   - Tự phục hồi 
-   - Quản lý cấu hình và bảo mật
+   - Điều hành container trên nhiều host
+   - Tối ưu hóa phân phối tài nguyên cần thiết cho ứng dụng
+   - Kiểm soát và tự động triển khai và cập nhật ứng dụng
+   - Quản lý không gian lưu trữ
+   - Scale ứng dụng theo yêu cầu, on-the-fly
+   - Quản lý dịch vụ dựa trên khai báo tường minh, đảm bảo ứng dụng sẽ luôn chạy theo cách đã được biết trước
+   - Health-check and self-deal app with autoplacement, autorestart, autoreplication and auto scaling
 
 # 3. Thành phần
 - Mỗi K8s cluster bao gồm một master node (control plane) và 1 hoặc nhiều worker node
 
-    <image src="https://images.viblo.asia/7f2a7e35-c0d8-42c2-828b-8309ea1a48f6.png" width="500">
+    <image src="https://raw.githubusercontent.com/xuanthulabnet/learn-kubernetes/master/imgs/kubernetes001.png" width="500">
 
 - Master node bao gồm 4 thành phần chính
   - API server: thành phần chính để giao tiếp với các thành phần khác
@@ -43,11 +58,14 @@ thông tin của 1 ứng dụng không thể bị truy cập tự do bởi ứng
 
 - Master node chỉ có nhiệm vụ control state của cluster, nó không có ứng dụng chạy trên đó, ứng dụng sẽ chạy trên các worker node. Mỗi worker node gồm 3 thành phần chính:
   - Container runtime (docker, rkt hoặc nền tảng khác): chạy container
-  - Kubelet: giao tiếp với api server
+  - Kubelet: giao tiếp với api server, sẽ cài trên mỗi node khi thêm vào cluster
   - Kubernetes Service Proxy (kube-proxy): quản lý network và trafic của các ứng dụng trong worker node
 
 ## 3.1. K8s Pod
+
+<image src="https://d33wubrfki0l68.cloudfront.net/5cb72d407cbe2755e581b6de757e0d81760d5b86/a9df9/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg" width="500">
+
 - Là thành phần cơ bản nhất để deploy và chạy một ứng dụng. Pod dùng để nhóm và chạy một hoặc nhiều container lại với nhau trên cùng một worker node, những container trong cùng một pod sẽ chia sẻ tài nguyên với nhau
 - Thông thường chỉ nên run một pod với một container
-
-    <image src="https://d33wubrfki0l68.cloudfront.net/5cb72d407cbe2755e581b6de757e0d81760d5b86/a9df9/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg" width="500">
+- Pod giống như một wrapper của container, cung cấp cho ta thêm nhiều chức năng để để quản lý và chạy container, giúp container chạy tốt hơn là chạy trực tiếp, cung cấp các tính năng như group tài nguyên, check container health và restart, chắc chắn ứng dụng trong container đã chạy thì mới gửi request, cung cấp một số life cycle để ta có thể thêm hành động vào pod khi pod chạy và k8s sẽ quản lý pod thay vì quản lý container
+    
