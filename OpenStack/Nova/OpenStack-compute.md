@@ -22,4 +22,19 @@ Các dịch vụ của nova phân loại bao gồm:
 <br>
 
 # 3. Thành phần
+- nova-api
+- nova-api-metadata
+- nova-compute
+- nova-scheduler
+- nova-conductor
+- nova-cert
+- nova-network
+- nova-consoleauth 
+- nova-novnproxy
+- nova-spicehtml5proxy
+- nova-xvvpnproxy
+- nova-client
+- nova-queue
+- SQL Database
+
 # 4. Nova, Libvirt và KVM

@@ -1,0 +1,1 @@
+# Quá trình boot một VM trong OpenStack
