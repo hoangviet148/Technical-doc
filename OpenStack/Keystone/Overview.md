@@ -8,7 +8,7 @@
 - Phân chia tài nguyên vào các "kho chứa" để sử dụng độc lập với mỗi tổ chức
 - Mỗi domain có thể coi là sự phân chia về mặt logic giữa các tổ chức, doanh nghiệp trên cloud
 ## 1.3. Users và User Groups (Actor)
-- User: thực thể được phép truy cập vào tài nguyên cloud đã đươck cô lập bởi domain và project
+- User: thực thể được phép truy cập vào tài nguyên cloud đã được cô lập bởi domain và project
 Group: tập hợp các user
 - User và user group được phép "common across domain", nghĩa là trên các domain khác nhau, tên user và user group của các domain này có thể giống nhau. Tuy nhiên mỗi user và user group đều có một định danh duy nhất (UUID)
 - Role: các role gán cho user và user group trên các domain và project có giới hạn toàn cục (global scoped) chứ không phải giới hạn domain (trong bản Liberty, các phiên bản trong tương lai có thể khác)
@@ -81,6 +81,17 @@ Mở cửa cho mục đích liên kết giữa các hệ thống cloud, hybrid c
 
 # 4. Access management and authorization
 # 5. Backends và Services
+Keystone cung cấp các dịch vụ chính như:
+- Identity: các Identity service cung cấp dịch vụ xác thực các thông tin chứng thực người dùng gửi tới, cung cấp dữ liệu về Users, Projects, Roles cũng như các metadata khác.
+- Token: xác nhận và quản lý các Tokens sử dụng cho việc xác thực các yêu cầu sau khi thông tin của các user/project đã được xác thực.
+- Catalog: cung cấp endpoints của các dịch vụ sử dụng cho việc tìm kiếm và truy cập các dịch vụ.
+- Policy: cung cấp cơ chế ủy quyền rule-based
+- Resource 
+- Assignment
+
+  <image src="https://camo.githubusercontent.com/292cd818236b9a1a7bdb99373504065008c45d98899198ba3204cb09ce3787f4/687474703a2f2f692e696d6775722e636f6d2f7742344b7943692e706e67">
+
+Mỗi dịch vụ lại được cấu hình để sử dụng một backend cho phép keystone lưu trữ thông tin Identity như thông tin credentials, token, etc. Việc quy định mỗi dịch vụ sử dụng hệ thống backend nào được cấu hình trong file keystone.conf.
 # 6. FAQs
 Một số chú ý và câu hỏi thường gặp với keystone
 - Domain vs Region:

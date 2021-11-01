@@ -101,3 +101,22 @@
   - Độ ổn định chưa cao
   - Hỗ trợ đa ngôn ngữ chưa tốt
   - Chỉ có hỗ trợ kĩ thuật qua chat và mail
+
+`
+LVM: ảo hóa disk
+Sas -> tích hợp cinder để tạo ra máy ảo
+thuật toán rage
+bare metal: quản lý bằng cloud nhưng lai vật lý
+container dựa vào vm để phát triển và ngược lại: ko phủ định nhau
+
+self service network: layer2(bridging/switching) VLAN
+provider network: (layer3-routing) VLAN, VXLAN
+CVE + openstack => 
+
+open tracing: jaeger, zipkin
+
+đồ án tốt nghiệp
+tìm hiểu SDS
+k8s inside openstack
+mô hình multiside openstack
+`
