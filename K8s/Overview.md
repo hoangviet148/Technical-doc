@@ -53,9 +53,12 @@ thông tin của 1 ứng dụng không thể bị truy cập tự do bởi ứng
 
 # 3. Các khái niệm trong k8s
 ## 3.1. Pod
+
+<image src="https://images.viblo.asia/61135076-d087-4a0c-9ea6-5232fbf896bd.png">
+
 - Pod là 1 nhóm (1 trở lên) các container chứa ứng dụng cùng chia sẽ các tài nguyên lưu trữ, địa chỉ ip...
 - Pod có thể chạy theo 2 cách:
-  - 1 container ứng với một Pod
+  - 1 container ứng với một Pod (nên dùng cách này)
   - 1 Pod có thể là một ứng dụng bao gồm nhiều container được kết nối chặt chẽ và cần phải chia sẽ tài nguyên giữa các container
 - Pods cung cấp hai loại tài nguyên chia sẻ cho các containers: networking và storage.
 - Networking: Mỗi pod sẽ được cấp 1 địa chỉ ip. Các container trong cùng 1 Pod cùng chia sẽ network namespace (địa chỉ ip và port). Các container trong cùng pod có thể giao tiếp với nhau và có thể giao tiếp với các container ở pod khác (use the shared network resources).
@@ -80,10 +83,33 @@ thông tin của 1 ứng dụng không thể bị truy cập tự do bởi ứng
 Khi 1 PV thoả mãn yêu cầu của 1 PVC thì chúng "match" nhau, rồi "bound" (buộc / kết nối) lại với nhau.
 
 ## 3.5. Namespaces
- -Namespace hoạt động như một cơ chế nhóm bên trong Kubernetes.
+
+<image src="https://hocchudong.com/wp-content/uploads/2021/07/4.1-namespace.png">
+
+- Có thể hiểu về mặt logic thì namespace giống như một folder, nhưng folder này trong k8s trải dài trên tất cả các node. Không thể tạo 2 tệp tin trùng tên trong cùng 1 folder nhưng thay vì là tập tin thì trong namespace k8s được gọi là resource 
+  - Resource: được hiểu là 1 loại tài nguyên được k8s quản lý như pods, volume, service, serviceaccount, configMap, secret, ... Bản thân namespace cũng được coi là một resource 
+- Namespace hoạt động như một cơ chế nhóm bên trong Kubernetes.
 Các Services, pods, replication controllers, và volumes có thể dễ dàng cộng tác trong cùng một namespace.
 - Namespace cung cấp một mức độ cô lập với các phần khác của cluster.
-
+- Một ứng dụng khi triển khai trong k8s phải thuộc vào 1 namespace nào đó.
+- Mặc định khi cài đặt xong 1 cụm k8s ta sẽ có 3 namespace: kube-system, default, public
+- Một số lệnh khi làm việc với namespace
+  - Tạo 1 namespace
+    ```
+    kubectl create namespace test
+    ```
+  - Namespace trong k8s có cách viết ngắn gọn là ns. Để kiểm tra các namespace trong hạ tầng k8s dùng lệnh:
+    ```
+    kubectl get ns
+    ```
+  - Tương tác với các resource trong namespace
+    ```
+    kubeclt -n kube-system get all
+    ```
+  - Xem resource nào thuộc k8s nằm trong phạm vị của namespace
+    ```
+    kubectl api-resources --namespaced=true
+    ```
 ## 3.6. ConfigMap (cm) - Secret
 - ConfigMap là giải pháp để nhét 1 file config / đặt các ENVironment var hay set các argument khi gọi câu lệnh. ConfigMap là một cục config, mà pod nào cần, thì chỉ định là nó cần - giúp dễ dàng chia sẻ file cấu hình.
 - secret dùng để lưu trữ các mật khẩu, token, ... hay những gì cần giữ bí mật. Nó nằm bên trong container.
@@ -93,6 +119,23 @@ Các Services, pods, replication controllers, và volumes có thể dễ dàng c
 - Annotations: You can use Kubernetes annotations to attach arbitrary non-identifying metadata to objects. Clients such as tools and libraries can retrieve this metadata.
 - Labels can be used to select objects and to find collections of objects that satisfy certain conditions. In contrast, annotations are not used to identify and select objects.
 
+# 3.8. Resource
+- Là một loại tài nguyên được k8s quản lý như namespace, pods, volume, service, ...
+- 2 loại:
+  - native: có sẵn khi cài k8s
+  - CRD (CustomResourceDefinition): thường được sử dụng trong các ứng dụng operator
+- Phân chia theo các nhóm chức năng
+  
+  <image src="https://hocchudong.com/wp-content/uploads/2021/08/5.2.png">
+
+- Phân chia theo phạm vi namespace
+
+  <image src="https://hocchudong.com/wp-content/uploads/2021/08/5.1.png">
+
+- Xem các resource đang có trong k8s
+  ```
+  kubectl api-resources --namespaced=true
+  ```
 # 4. Thành phần
 
 <image src="https://techvccloud.mediacdn.vn/thumb_w/650/280518386289090560/2021/3/6/63b-1615005521186826169109.png">
