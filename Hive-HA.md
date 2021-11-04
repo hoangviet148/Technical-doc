@@ -1,5 +1,7 @@
 <image src="https://docs.cloudera.com/HDPDocuments/HDP2/HDP-2.5.6/bk_hadoop-high-availability/content/figures/1/figures/multiple_hs2_example.png">
 
+- Requires: Mysql
+
 - Cài đặt Hive
 ```
 wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
@@ -92,7 +94,11 @@ Thêm đoạn sau vào đầu
     <value>com.mysql.jdbc.Driver</value>
   </property>
   ```
-
+- Xóa ký tự đặc biệt trong config 
+```
+vim /opt/hive/conf/hive-site.xml +3210
+xóa &#8 
+```
 - Khởi tạo metastore
 ```
 $HIVE_HOME/bin/schematool -dbType mysql -initSchema
