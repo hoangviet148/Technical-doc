@@ -4,7 +4,8 @@
 
 - Cài đặt Hive
 ```
-wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz -P /opt
+cd /opt
 tar xzf apache-hive-3.1.2-bin.tar.gz
 mv apache-hive-3.1.2-bin hive
 ```
