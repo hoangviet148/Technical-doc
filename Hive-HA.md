@@ -4,17 +4,26 @@
 
 - Cài đặt Hive
 ```
-wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz -P /opt
+sudo wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz -P /opt
 cd /opt
-tar xzf apache-hive-3.1.2-bin.tar.gz
-mv apache-hive-3.1.2-bin hive
+sudo tar xzf apache-hive-3.1.2-bin.tar.gz
+sudo mv apache-hive-3.1.2-bin hive
+sudo chown -R hadoop:root hive
 ```
 
 - Configure Hive Environment Variables
 ```
-sudo nano .bashrc
+cd
+nano .bashrc
+```
+
+add thêm vào cuối
+```
 export HIVE_HOME=/opt/hive
 export PATH=$PATH:$HIVE_HOME/bin
+```
+
+```
 source ~/.bashrc
 ```
 
@@ -48,13 +57,13 @@ cp $HADOOP_HOME/share/hadoop/hdfs/lib/guava-27.0-jre.jar $HIVE_HOME/lib/
 ```
 cd $HIVE_HOME/conf
 cp hive-default.xml.template hive-site.xml
-sudo nano hive-site.xml
+nano hive-site.xml
 ```
 Thêm đoạn sau vào đầu
 ```
 <property>
     <name>system:java.io.tmpdir</name>
-    <value>/tmp/hive/</value>
+    <value>/tmp</value>
   </property>
   <property>
     <name>system:user.name</name>
@@ -74,7 +83,7 @@ Thêm đoạn sau vào đầu
   ```
   - Download Mysql-connector
   ```
-  wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar -P /opt/hive/lib
+  sudo wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar -P /opt/hive/lib
   ```
   - Chỉnh sửa file /opt/hive/conf/hive-site.xml theo như sau
   ```
