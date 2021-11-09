@@ -77,13 +77,14 @@ Thêm đoạn sau vào đầu
   ```
   CREATE USER 'hive'@'localhost' IDENTIFIED BY 'abc251199';
   CREATE USER 'hive'@'%' IDENTIFIED BY 'abc251199';
-  GRANT ALL ON *.* TO 'hive'@'localhost';
+  GRANT ALL ON *.hcatalog TO 'hive'@'localhost';
   GRANT ALL ON *.* TO 'hive'@'%';
   flush privileges;
   ```
+  - Restart mysql
   - Download Mysql-connector
   ```
-  sudo wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar -P /opt/hive/lib
+  sudo wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.11/mysql-connector-java-8.0.11.jar -P /opt/hive/lib
   ```
   - Chỉnh sửa file /opt/hive/conf/hive-site.xml theo như sau
   ```
@@ -121,5 +122,5 @@ hive
 - Copy cấu hình hive sang server thứ 2
 ```
 cd /opt
-scp -R hive host:/otp
+scp -r hive host:/otp
 ```
