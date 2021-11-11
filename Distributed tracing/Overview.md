@@ -12,4 +12,11 @@
   - cung cấp 2 kiểu storage backend
     - Cassandra
     - Elastic search
+  - Một số thành phần: spans, tags, scopes, tracers
+      - Span encapsulates: 
+        - an operation name
+        - a start and finish timestamp
+        - a set of key:value span tag
+        - a set of key:value span logs
+        - a span context
 

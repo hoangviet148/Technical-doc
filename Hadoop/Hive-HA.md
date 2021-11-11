@@ -122,5 +122,10 @@ hive
 - Copy cấu hình hive sang server thứ 2
 ```
 cd /opt
-scp -r hive host:/otp
+scp -r hive host:/opt
+```
+
+
+```
+Phân quyền cho user hive với database mới được tạo ra là hcatalog
 ```
