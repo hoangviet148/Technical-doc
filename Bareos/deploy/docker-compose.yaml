@@ -1,0 +1,63 @@
+version: "3.5"
+
+services:         
+    bareos-dir:
+        image: barcus/bareos-director:latest
+        volumes:
+            - ./config/director:/etc/bareos
+            - ./data/director:/var/lib/bareos
+        environment: 
+            - DB_HOST=bareos-db
+            - DB_PORT=5432
+            - DB_PASSWORD=hoang
+            - BAREOS_SD_HOST=bareos-sd
+            - BAREOS_SD_PASSWORD=hoang
+            - BAREOS_FD_HOST=bareos-fd
+            - BAREOS_FD_PASSWORD=hoang
+            - BAREOS_WEBUI_PASSWORD=hoang
+            - SMTP_HOST=smtpd
+            - ADMIN_MAIL=nnvvhh148@gmail.com
+        depends_on:
+            - bareos-db
+
+
+    bareos-sd:
+        image: barcus/bareos-storage
+        ports:
+            - 9103:9103
+        volumes:
+            - ./config/storage:/etc/bareos
+            - ./data/storage:/var/lib/bareos/storage
+        environment:
+            - BAREOS_SD_PASSWORD=hoang
+
+
+    bareos-fd:
+        image: barcus/bareos-client
+        volumes:
+          - ./config/client:/etc/bareos
+          - ./data/director:/var/lib/bareos-director #(required for MyCatalog backup)
+        environment:
+          - BAREOS_FD_PASSWORD=hoang
+
+
+    bareos-webui:
+        image: barcus/bareos-webui
+        ports:
+            - 80:80
+        environment:
+            - BAREOS_DIR_HOST=bareos-dir
+            - BAREOS_WEBUI_PASSWORD=hoang
+        volumes:
+            - ./config/webui:/etc/bareos-webui
+
+
+    bareos-db:
+        image: postgres:9.3
+        volumes:
+            - ./postgres:/var/lib/postgresql/data
+        environment:
+            - MYSQL_ROOT_PASSWORD=hoang
+
+    smtpd:
+        image: namshi/smtp
