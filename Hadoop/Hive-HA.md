@@ -30,7 +30,7 @@ source ~/.bashrc
 - Edit hive-config.sh file
 ```
 sudo nano $HIVE_HOME/bin/hive-config.sh
-export HADOOP_HOME=/home/hdoop/hadoop-3.2.2
+export HADOOP_HOME=/home/hadoop/hadoop-3.2.2
 ```
 
 - Create Hive Directories in HDFS
@@ -75,9 +75,9 @@ Thêm đoạn sau vào đầu
   - Chỉnh sửa bind-address => 0.0.0.0
   - Login to Mysql 
   ```
-  CREATE USER 'hive'@'localhost' IDENTIFIED BY 'abc251199';
-  CREATE USER 'hive'@'%' IDENTIFIED BY 'abc251199';
-  GRANT ALL ON *.hcatalog TO 'hive'@'localhost';
+  CREATE USER 'hive'@'localhost' IDENTIFIED BY 'hoang';
+  CREATE USER 'hive'@'%' IDENTIFIED BY 'hoang';
+  GRANT ALL ON *.*hcatalog* TO 'hive'@'localhost';
   GRANT ALL ON *.* TO 'hive'@'%';
   flush privileges;
   ```
