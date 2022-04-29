@@ -201,7 +201,7 @@ apt install -y chrony
 
 - Cấu hình NTP Server - Cho phép subnet 172.16.1.0/24 đồng bộ 
 ```
-sed -i "s/server.*/server controller iburst/g" /etc/chrony/chrony.conf > /dev/nul
+sed -i "s/server.*/server controller1 iburst/g" /etc/chrony/chrony.conf > /dev/nul
 echo "allow 172.16.1.0/24" >> /etc/chrony.conf
 systemctl enable chronyd.service
 systemctl start chronyd.service
@@ -468,7 +468,6 @@ systemctl enable xinetd
 - Cài đặt package
 ```
 apt install -y rabbitmq-server
-
 ```
 
 -   Khởi động Web Management Interface , xòa tài khoản guest, khởi động tài khoản mới
@@ -479,7 +478,6 @@ rabbitmqctl delete_user guest
 rabbitmqctl add_user openstack hoang
 rabbitmqctl set_user_tags openstack administrator 
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-
 ```
 
 
@@ -514,7 +512,6 @@ systemctl start rabbitmq-server.service
 rabbitmqctl stop_app
 rabbitmqctl join_cluster rabbit@controller1  ## phải sử dụng hostname
 rabbitmqctl start_app
-
 ```
 
 - Kiểm tra Cluster

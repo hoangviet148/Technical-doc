@@ -1,32 +1,22 @@
-
-
-## Cấu hình môi trường node Compute và Storage Node
+## Cấu hình môi trường Compute Node và Storage Node
 
 
 ## 1. Openstack Package
 
-
-- Cài đặt Openstack Rocky Repository
-
-```
-yum install -y centos-release-openstack-rocky
-yum upgrade -y
-```
-
-
+- Mặc định phiên bản openstack của ubuntu 20.04 là Ussuri
 
 ## 2. NTP
 
 - Cài đặt chrony
 
 ```
- yum install -y chrony
+apt install -y chrony
 ```
 
-- Cấu hình NTP ( sử dụng Pacemaker VIP)
+- Cấu hình NTP
 
 ```
-sed -i "s/server.*/server 192.168.50.140 iburst/g" /etc/chrony.conf
+sed -i "s/server.*/server controller1 iburst/g" /etc/chrony.conf
 systemctl enable chronyd.service
 systemctl restart chronyd.service
 ```
