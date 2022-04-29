@@ -180,9 +180,6 @@ vrrp_instance internal_VIP {
 EOF
 ```
 
-### Hết cấu hình
-
-
 - Khởi động service
 ```
 systemctl start keepalived
@@ -203,8 +200,8 @@ apt install -y chrony
 ```
 sed -i "s/server.*/server controller1 iburst/g" /etc/chrony/chrony.conf > /dev/nul
 echo "allow 172.16.1.0/24" >> /etc/chrony.conf
-systemctl enable chronyd.service
-systemctl start chronyd.service
+systemctl enable chrony
+systemctl start chrony
 ```
 
 ## 5. Galera MariaDB Cluster
@@ -221,6 +218,10 @@ apt install mariadb-server python3-pymysql
 
 ### 5.2 .  Cấu hình Galera trên node Controlller 1
 
+- Cau hinh bind-addresses
+```
+sed -i "s/.*bind-address.*/bind-address = controller1/" /etc/mysql/my.cnf
+```
   
 - Cấu hình MarriaDB Server cho OPS
 
@@ -298,7 +299,6 @@ wsrep_retry_autocommit=1
 wsrep_auto_increment_control=1
 
 EOF
-
 ```
 
 - Tạm dừng dịch vụ
@@ -308,6 +308,11 @@ systemctl stop mariadb
 
 
 ### 5.2.  Cấu hình Galera trên node Controlller 2 
+
+- Cau hinh bind-addresses
+```
+sed -i "s/.*bind-address.*/bind-address = controller2/" /etc/mysql/my.cnf
+```
   
 - Cấu hình MarriaDB Server cho OPS
 
@@ -352,7 +357,6 @@ max_allowed_packet = 1024M
 max_statement_time = 3600
 skip_name_resolve
 
-
 EOF
 ```
 
@@ -386,9 +390,7 @@ wsrep_convert_LOCK_to_trx=0
 wsrep_retry_autocommit=1
 wsrep_auto_increment_control=1
 
-
 EOF
-
 ```
 
  -   Khởi tạo Cluster
@@ -491,12 +493,6 @@ rabbitmqctl set_policy ha-all '^(?!amq\.).*' '{"ha-mode": "all"}'
 - Copy Erlang cookie từ controller1 sang các node khác 
 ```
 scp /var/lib/rabbitmq/.erlang.cookie root@controller2:/var/lib/rabbitmq/
-```
-- Tai controller2
-```
-chown -R /etc/keystone
-```
-```
 rabbitmqctl start_app
 ```
 
@@ -564,8 +560,8 @@ sed -i "s/-l 127.0.0.1,::1/-l 127.0.0.1,::1,$IP_management/g" /etc/memcached.con
 
 - Khởi động dịch vụ
 ```
-systemctl enable memcached.service
-systemctl start memcached.service
+systemctl enable memcached
+systemctl start memcached
 ```
 
 
