@@ -459,7 +459,7 @@ echo 'mysqlchk 9200/tcp # MySQL check' >> /etc/services
 # Bật xinetd
 systemctl restart xinetd
 systemctl enable xinetd
-
+```
 
 ## 6. RabbitMQ
 
