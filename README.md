@@ -1,1 +1,1 @@
-# Technical-doc
+# Technical document
