@@ -1,1 +1,1 @@
-# Technique-doc
+# Technical-doc
