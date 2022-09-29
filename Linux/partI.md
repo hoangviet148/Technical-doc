@@ -1,9 +1,7 @@
 Giới thiệu:
-unix là hệ điều hành đa nhiệm
-có 1 hệ thống tập tin duy nhất mà các chương trình sử dụng để giao tiếp với nhau (everything is a file)
-khác với windows, có ký tự ổ đĩa, mọi tệp trên hệ thống đều là tệp con của một thư mục root
-linux = linus + unix
-câu lệnh unix: command[-options] [arguments]
+- unix là hệ điều hành đa nhiệm có 1 hệ thống tập tin duy nhất mà các chương trình sử dụng để giao tiếp với nhau (everything is a file), khác với windows, có ký tự ổ đĩa, mọi tệp trên hệ thống đều là tệp con của một thư mục root
+- linux = linus + unix
+- câu lệnh unix: command[-options] [arguments]
 
 # 1. Cấu trúc thư mục của Linux	
 - /root: nơi bắt đầu của tất cả các file và thư mục. Chỉ có root user mới có quyền ghi trong thư mục này. 
@@ -36,7 +34,7 @@ câu lệnh unix: command[-options] [arguments]
 - grub (grand unified bootloader): 
   - là 1 boot loader của linux (isolinux)
   - mục đích: cho phép lựa chọn một trong các hệ điều hành trên máy tính để khởi động, sau đó    chúng sẽ nạp kernel vào bộ nhớ và chuyển quyền điều khiển máy tính cho kernel
-  - 
+  
 - Quá trình khởi động:
   - power on: đầu tiên bios sẽ thực hiện quá trình POST (power-on self-test) để kiểm tra xem các thiết bị phần cứng xem có trục trặc gì không. Sau khi quá trình POST diễn ra thành công thì bios sẽ tìm kiếm và boot 1 hđh chứa trong ổ cứng (thứ tự có thể được thay đổi bởi user)
 
