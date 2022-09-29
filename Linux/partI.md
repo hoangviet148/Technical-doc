@@ -33,7 +33,7 @@ Giới thiệu:
 - mbr: sector đầu tiên (được đánh số 0) của thiết bị lưu trữ bộ nhớ, thường có kích thước 512 bytes
 - grub (grand unified bootloader): 
   - là 1 boot loader của linux (isolinux)
-  - mục đích: cho phép lựa chọn một trong các hệ điều hành trên máy tính để khởi động, sau đó    chúng sẽ nạp kernel vào bộ nhớ và chuyển quyền điều khiển máy tính cho kernel
+  - mục đích: cho phép lựa chọn một trong các hệ điều hành trên máy tính để khởi động, sau đó chúng sẽ nạp kernel vào bộ nhớ và chuyển quyền điều khiển máy tính cho kernel
   
 - Quá trình khởi động:
   - power on: đầu tiên bios sẽ thực hiện quá trình POST (power-on self-test) để kiểm tra xem các thiết bị phần cứng xem có trục trặc gì không. Sau khi quá trình POST diễn ra thành công thì bios sẽ tìm kiếm và boot 1 hđh chứa trong ổ cứng (thứ tự có thể được thay đổi bởi user)
@@ -41,12 +41,16 @@ Giới thiệu:
   - master boot record (mbr): sau khi xác định được thiết bị lưu trữ 
 được ưu tiên thì bios đọc mbr của thiết bị đó để nạp vào 1 chương trình - có tác dụng định vị và khởi động boot loader
 
-  - boot loader
-  - kernel linux được nạp và khởi chạy: khi boot loader nạp 1 phiên bản dạng nén của linux kernel, nó ngay lập tức tự giải nén và cài đặt lên RAM - nó sẽ ở RAM cho đến khi tắt máy.
+  - boot loader: cho phép lựa chọn hđh để khởi động, sau đó nạp kernel hđh đó vào RAM và chuyển quyền điều khiển máy tính cho kernel này. 
+
+  - kernel linux được nạp và khởi chạy: khi boot loader nạp 1 phiên bản dạng nén của linux kernel, nó ngay lập tức tự giải nén và cài đặt lên RAM - nó sẽ ở RAM cho đến khi tắt máy. Sau khi chọn kernel trong file cấu hình của bootloader, hệ thống sẽ tự động nạp chương trình init trong thư mục /sbin
+
   - các script trong các INITRD (initial ram disk) được thực thi: một tập các chương trình nhỏ sẽ được thực thi khi kernel mới đc khởi chạy, các chương trình này sẽ dò xét hệ thống phần cứng xem chúng cần hỗ trợ thêm gì để có thể quản lý. Sau đấy chúng có thể nạp vào 1 số module hỗ trợ và quá trình khởi động tiếp diễn
-  - các chương trình init được thực thi: khi kernel đc khởi chạy xong, nó gọi 1 chương duy nhất tên là init (có PID = 1) và là cha của tất cả các tiến trình khác. Sau đó init sẽ xem trong file /etc/inittab để thực thi các script khởi động
-  - các initscript được thực thi dựa trên runlevel được chọn: thực thi các script có tên bắt đầu bằng ký tự S => khởi động các hệ thống con hoặc các deamon => về cơ bản là đã khởi động xong
-  - đăng nhập với giao diện đồ họa: subsystem cuối cùng được init khởi động là X Window cung cấp giao diện đồ họa để người dùng sử dụng
+
+  - các chương trình init được thực thi: khi kernel đc khởi chạy xong, nó gọi 1 chương duy nhất tên là init (có PID = 1) và là cha của tất cả các tiến trình khác. Sau đó init sẽ xem trong file /etc/inittab (System V) hoặc /etc/systemd/system/target/default.target (systemd) để thực thi các script khởi động
+
+    - Sau khi xác định runlevel, chương trình /sbin/init sẽ thực thi các file startup script được đặt trong /etc/rc.d
+
   - khi đăng nhập thành công vào hệ thống: một chương trình shell sẽ được bắt đầu => tất cả các chương trình, thao tác thực hiện trong phiên làm việc sẽ được thực hiện bởi shell hoặc 1 chương trình nào đấy shell khởi động.
 
 # 3. Kernel space, User space	
@@ -78,45 +82,41 @@ ngoài system call, ngắt cũng là một nguyên nhân khiến cho cpu chuyể
 - less: giống như more nhưng cho phép cuộn ngược lên các trang đã đọc
 
 # 5. Tìm hiểu sử dụng các câu lệnh: find, grep, cut, sed, vim, nano, awk	
-- find: tìm filehieu
-*: thay thế cho 1 chuỗi, vd: find / -name…*
-tìm file ẩn: find / -type f -name “.*”
-tìm file được tạo trong 1h: find / -cmin -60
-tìm và xóa file có dung lượng trên 100M: find / -size +100M -exec rm -rf {} \;
+- find
+  - `*` thay thế cho 1 chuỗi, vd: find / -name "*"
+  - tìm file ẩn: find / -type f -name ".*"
+  - tìm file được tạo trong 1h: find / -cmin -60
+  - tìm và xóa file có dung lượng trên 100M: find / -size +100M -exec rm -rf {} \;
 
 - grep (global regular expression print): tìm kiếm chuỗi trong file (sẽ in ra dòng chứa chuỗi cần tìm)
-tìm 1 chuỗi trong file: grep “thang” thang.txt
--i: tìm kiếm ko phân biệt chữ hoa chữ thường
--v: tìm kiếm ngược
-tìm kiếm nhiều chuỗi: grep -e “thang1” -e “thang2” thang.txt
+  - tìm 1 chuỗi trong file: grep "thang" thang.txt
+  - -i: tìm kiếm ko phân biệt chữ hoa chữ thường
+  - -v: tìm kiếm ngược
+  - tìm kiếm nhiều chuỗi: grep -e "thang1" -e “thang2" thang.txt
 
 - cut: trích xuất nội dung văn bản theo cột
-cut -f field_list filename
+  - cut -f field_list filename
 
 - sed (stream editor): sửa đổi văn bản của 1 tệp sử dụng regex
-sed ‘s/pattern/replace_string/’ filename
-sed chỉ in ra các văn bản được thay thế nên sử dụng -i hoặc chuyển hướng để lưu tập tin
-
-- vim (vi improved): 
-- nano (trình soạn thảo dòng lệnh): syntax highlight, bộ đệm, tìm kiếm và thay thế văn bản, kiểm tra chính tả, mã hóa UTF-8, ...
-^: ctrl
-M: alt
+  - sed 's/pattern/replace_string/' filename
+  - sed chỉ in ra các văn bản được thay thế nên sử dụng -i hoặc chuyển hướng để lưu tập tin
 
 - awk: là 1 ngôn ngữ lập trình hỗ trợ thao tác dễ dàng đối với kiểu dữ liệu có cấu trúc và tạo ra kết quả định dạng.
-chỉ nhận đầu vào là file text hoặc input có dạng chuẩn rồi xuất ra output có dạng chuẩn
-syntax: awk ‘/search pattern 1/ {action} /search pattern 2/ {action}’ file
-cách hoạt động: đọc file theo từng dòng, nếu khớp action thì sẽ thực hiện action
-tách trường: awk '{print $2}' file.txt
-phép so sánh: nếu $s1 > 200 thì in ra nội dung: awk '$1 > 200' file1.txt
-cú pháp điều kiện: 
-awk '{
-         if($1 == "apple"){
-            print $2
-         }
-       }' file.txt
-
-lọc kí tự: awk '/are/' file2.txt
-tính tổng:  awk '{s+=$(cột cần tính)} END {print s}' {{filename}}
+  - chỉ nhận đầu vào là file text hoặc input có dạng chuẩn rồi xuất ra output có dạng chuẩn
+  - syntax: awk '/search pattern 1/ {action} /search pattern 2/ {action}' file
+  - cách hoạt động: đọc file theo từng dòng, nếu khớp action thì sẽ thực hiện action
+  - tách trường: awk '{print $2}' file.txt
+  - phép so sánh: nếu $s1 > 200 thì in ra nội dung: awk '$1 > 200' file1.txt
+  - cú pháp điều kiện: 
+    ```
+    awk '{
+          if($1 == "apple"){
+              print $2
+          }
+    }' file.txt
+    ```
+  - lọc kí tự: awk '/are/' file2.txt
+  - tính tổng:  awk '{s+=$(cột cần tính)} END {print s}' {{filename}}
 
  	
 # 6. Regular Expressions ?
@@ -131,36 +131,41 @@ tính tổng:  awk '{s+=$(cột cần tính)} END {print s}' {{filename}}
   - g - groupe : những người sử dụng thuộc nhóm chứa file
   - o - others: những người sử dụng khác, không phải là người sở hữu file cũng như không thuộc nhóm chứa file
 - mỗi nhóm người sử dụng sẽ có 1 tập các quyền (r, w, x) xác định
-- mỗi file luôn thuộc về một  và một nhóm xác định
+- mỗi file luôn thuộc về một user và một nhóm xác định
 - người tạo ra file, thư mục sẽ là người sở hữu, nhóm chứa người tạo ra file sẽ là nhóm sở hữu
   - r - đọc: cho phép hiển thị nội dung file hoặc thư mục
   - w- ghi: cho phép thay đổi nội dung file và cho phép thêm hoặc xóa các file trong một thư mục
   - x - thực thi: cho phép thực thi dưới dạng 1 chương trình, cho phép quyền chuyển đến thư mục cần truy cập
 
 - Thay đổi quyền truy cập: 
-  - chmod <mode> <file> : chmod 6711 test
-  - chmod <who><operation><right> <file>
-  - who: u|g|o|a (all)
-  - operation: + (thêm quyền), -(bỏ quyền), = (gán mới quyền)
-  - right: r|w|x|s
-  - Ex: -rw-rw-r-- 1 hoang user1 150 Mar 19 19:12 test.txt => chmod o+w test => -rw-rw-rw- 1 hoang user1 150 Mar 19 19:12 test.txt
+  - chmod `<mode> <file>` : chmod 6711 test
+  - chmod `<who><operation><right> <file>`
+    - who: u|g|o|a (all)
+    - operation: + (thêm quyền), -(bỏ quyền), = (gán mới quyền)
+    - right: r|w|x|s
+    - Ex: -rw-rw-r-- 1 hoang user1 150 Mar 19 19:12 test.txt => chmod o+w test => -rw-rw-rw- 1 hoang user1 150 Mar 19 19:12 test.txt
 
 - Thay đổi người sở hữu và nhóm
-  - chown [-R] <user><files>
-  - chgrp [group><files>
+  - chown [-R] `<user><files>`
+  - chgrp `<group><files>`
   - sticky bit: là một quyền đặc biệt, được thiết lập trên một thư mục cấp quyền ghi cho toàn bộ nhóm. Bit này đảm bảo rằng tất cả các thành viên của nhóm có thể ghi vào thư mục, nhưng chỉ người tạo file, hay chủ sở hữu file, mới có thể xóa nó
-  - syntax: sử dụng chmod với option -t
+    - syntax: sử dụng chmod với option -t
   - suid (set owner user id up on execution ): là 1 file permission tạm thời cấp quyền tạm thời cho user chạy file quyền của user tạo ra file
-  - Ex: khi thay đổi password (khi thay đổi sẽ thay đổi 1 số file như /etc/passwd hay /etc/shadow - là những file đc tạo bởi root) nhưng vì pw đc set suid nên có thể thực hiện lệnh mà ko cần sudo
-  - syntax: chmod u+s file.txt hoặc chmod 4750 file.txt
+    - Ex: khi thay đổi password (khi thay đổi sẽ thay đổi 1 số file như /etc/passwd hay /etc/shadow - là những file đc tạo bởi root) nhưng vì pw đc set suid nên có thể thực hiện lệnh mà ko cần sudo
+    - syntax: chmod u+s file.txt hoặc chmod 4750 file.txt
 
   - sgid: (set owner user id up on execution ): tương tự suid, nếu sgid được đặt thì chương trình sẽ sử dụng quyền của group thay vì quyền của người dùng hiện tại
-  - syntax: chmod g+s file1.txt hoặc chmod 2750 file1.txt
+    - syntax: chmod g+s file1.txt hoặc chmod 2750 file1.txt
 
 # 8. Tìm hiểu về Linking file (symbolic, hard link)		
-- inode: là 1 CTDL, lưu trữ thông tin về 1 tệp thông thường, thư mục, hay những đối tượng khác.
-chứa các con trỏ trỏ đến các block lưu nội dung file.
+- inode: 
+  - là 1 CTDL, lưu trữ thông tin về 1 tệp thông thường, thư mục, hay những đối tượng khác.
+  - chứa các con trỏ trỏ đến các block lưu nội dung file.
+  ![](../Image/inode.gif)
 - link: là một kết nối giữa filename và dữ liệu trên disk.
+  
+  ![](../Image/diff-hard-link-vs-soft-link.png)
+
 - hard links: 
   - tạo liên kết trong cùng hệ thống tệp tin với 2 inode entry tương ứng cùng trỏ đến cùng 1 nội dung vật lý.
   - tất cả các tệp phải có ít nhất 1  
@@ -194,17 +199,15 @@ chứa các con trỏ trỏ đến các block lưu nội dung file.
   - sau đó mount bằng lệnh sudo mount /dev/sdb /mnt/sdb
   - fstab: là file kiểm soát xem những file system nào được mount
  	
-# 10. Kiểm tra phiên bản HĐH, cách update HĐH.		
+# 10. Kiểm tra phiên bản HĐH, cách update HĐH	
 - cat /etc/*release
 - cat /etc/issue
 - cat /etc/os-release
+-  hostnamectl
+- uname -r
+- do-release-upgrade với switch -d
 
-hostnamectl
-uname -r
-
-do-release-upgrade với switch -d
-
-# 11. Biến môi trường.	
+# 11. Biến môi trường
 - Là các biến chứa cấu hình file hoặc thông số các chương trình.
 - Là các biến có sẵn trên toàn hệ thống và được kế thừa bởi tất cả các tiến trình và dc shell sinh ra			
  	
@@ -212,8 +215,8 @@ do-release-upgrade với switch -d
 - Là 1 cơ chế cho phép ghép nhiều lệnh với nhau theo kiểu output của lệnh A sẽ là input cho lệnh B
 - cách sử dụng: cmd1 | cmd2 | cmd3 |...
 - Cách kiểm tra phần cứng của Server: Main, RAM, HDD, CPU  	
-  - dmidecode | grep “System Information” -A 9 ( nhà sản xuất )
-  - dmidecode | grep “Base Board” – A 10 (main board )
+  - dmidecode | grep “System Information" -A 9 ( nhà sản xuất )
+  - dmidecode | grep “Base Board" – A 10 (main board )
   - cat /proc/cpuinfo | head –n 25 (cpu)
   - cat /proc/meminfo  (ram)
   - cat /proc/scsi/scsi (hdd)
