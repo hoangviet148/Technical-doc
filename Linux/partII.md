@@ -20,7 +20,7 @@
 - “>>”: append stdout vào file
 - “<<”: đọc từng dòng cho đến khi gặp EOF, thường kết hợp với > để tạo nội dung tệp tin với dữ liệu nhập vào. VD tạo repo MongoDB trên centos 7
 
-- file descriptors:  là 1 số nguyên dương để định danh file, ở đây stdin là 0, stdout là 1, stderr là 2. (do mọi thứ trong linux đều là file)
+- file descriptors: là 1 số nguyên dương để định danh file, ở đây stdin là 0, stdout là 1, stderr là 2. (do mọi thứ trong linux đều là file)
 có thể thay > bằng 1>, >> bằng 1>>
 - một số trường hợp ta không muốn xử lý output thì sẽ redirect đến /dev/null
 Cách ghi chung stdout và stderr vào chung 1 file 
@@ -117,19 +117,25 @@ x = also shows processes not attached to a terminal
 - s: process status
 - time+: total cpu time used by the task in hundredths of a second
 
-thời gian hệ thống
-thời gian hoạt động: thời gian hệ thống đã chạy
-số lượng user
-
+  ![](../Image/top1.png)
+- thời gian hệ thống
+- thời gian hoạt động: thời gian hệ thống đã chạy
+- số lượng user
+  
+  ![](../Image/top2.png)
 - tải trung bình (số lượng process cần cpu xử lý): được tính sau mỗi 1, 5, 15p để cung cấp cái nhìn sơ bộ về hệ thống. VD:
   - 1s cpu sẽ xử lý được 1 process
   - TB thì cứ 6s mới có 1 process để xử lý
   - load average = 6 / 60 = 0.1
   - max = số core * 1.0
-
+  
+  ![](../Image/top3.png)
 - thống kê về các tiến trình đang chạy
-  - bao gồm: %CPU từ tiến trình của user, system, nice time (low priority), idle time(id),  wait for io, handling hardware interruption, time handling software, cpu ảo chờ cpu thực xử lý các tiến trình
+  
+  ![](../Image/top4.png)
+- bao gồm: %CPU từ tiến trình của user, system, nice time (low priority), idle time(id),  wait for io, handling hardware interruption, time handling software, cpu ảo chờ cpu thực xử lý các tiến trình
 
+  ![](../Image/top5.png)
 - chi tiết về bộ nhớ ram, swap đang được phân phối và sử dụng
   - tổng lượng ram/swap hiện có
   - số lượng đã sử dụng: tổng - trống - cache/buff
@@ -216,4 +222,4 @@ nằm trong khoảng từ -20 đến 19 (default là 0)
 - ram = active + inactive (không tính swap)
 - khi run 1 process và tắt đi thì systems cache lại để khi process dc bật lên thì dùng luôn chứ ko phải bật lại nữa. Nên khi tắt bật process nhiều sẽ có 1 lúc inactive bị đầy và lúc này vùng inactive sẽ bị chuyển vào swap
 => swap bị dùng nhiều -> thiếu ram -> cần nâng cấp bộ nhớ cho server
-Chương trình được chia thành các page có kích thước cố định, Ram cũng được chia thành các page có kích thước giống vậy. Tại 1 thời điểm chỉ 1 vài page của tiến trình cần có mặt trong page frame của ram để chạy. Các trang chưa được sử dụng của chương trình sẽ để trong swap
+- Chương trình được chia thành các page có kích thước cố định, Ram cũng được chia thành các page có kích thước giống vậy. Tại 1 thời điểm chỉ 1 vài page của tiến trình cần có mặt trong page frame của ram để chạy. Các trang chưa được sử dụng của chương trình sẽ để trong swap
