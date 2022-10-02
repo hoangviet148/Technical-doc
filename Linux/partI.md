@@ -161,10 +161,12 @@ ngoài system call, ngắt cũng là một nguyên nhân khiến cho cpu chuyể
 - inode: 
   - là 1 CTDL, lưu trữ thông tin về 1 tệp thông thường, thư mục, hay những đối tượng khác.
   - chứa các con trỏ trỏ đến các block lưu nội dung file.
-  ![](../Image/inode.gif)
+  
+    ![](../Image/inode.gif)
+
 - link: là một kết nối giữa filename và dữ liệu trên disk.
   
-  ![](../Image/diff-hard-link-vs-soft-link.png)
+    ![](../Image/diff-hard-link-vs-soft-link.png)
 
 - hard links: 
   - tạo liên kết trong cùng hệ thống tệp tin với 2 inode entry tương ứng cùng trỏ đến cùng 1 nội dung vật lý.
