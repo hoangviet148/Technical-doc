@@ -2,9 +2,9 @@
 ```
 2-3 tuần onboard:
 
-- Tìm hiểu AWS và các thành phần trong hệ thống hiện tại: EC2, EKS, VPC, ALB, RDS, S3, Atlas
+- Tìm hiểu AWS và các thành phần trong hệ thống hiện tại: EC2, EKS, VPC, ALB, NLB, RDS, S3, Atlas, Lambda, CloudWatch, ElasticCache, SQS
 
-- Tìm hiểu các thành phần trong EKS: Vinbase services, Ingress, monitoring, logging, jaeger, harbor
+- Tìm hiểu các thành phần trong EKS: Vinbase services, Ingress, monitoring, logging, jaeger, harbor, cni, authen, dns, ...
 
 - Tìm hiểu luồng CI/CD cho các môi trường hiện có: Jenkins, ArgoCD
 
@@ -79,7 +79,7 @@ Các tool cần tìm hiểu: Ansible, Terraform, Terragrunt, Kubectl, Helm, Kust
 - SQS (simple message queue): di chuyển dữ liệu giữa các thành phần phân tán của ứng dụng 
 - ElasticCache: service cung cấp dịch vụ cache data trên aws
   - redis
-    - lưu được kiểu dữ liệu phức tạp hơn như: strng, hash, set, ...
+    - lưu được kiểu dữ liệu phức tạp hơn như: string, hash, set, ...
     - có tính persis, sau 1 tg sẽ được lưu vào file dump
     - lưu dữ liệu vào ram
     - cho phép replication
@@ -100,6 +100,7 @@ Các tool cần tìm hiểu: Ansible, Terraform, Terragrunt, Kubectl, Helm, Kust
   - thành phần:
     - lambda function
     - event source
+  
 - CloudWatch: Là dịch vụ giám sát, tổng hợp, phân tích dữ liệu nguồn tài nguyên trên aws. Cung cấp thông tin thực tiễn một cách realtime, cho phép giám sát các vùng nhớ ứng dụng, cơ sở hạ tầng như ram, disk, ...
   - chức năng chính là lưu nhật ký: các số liệu được thể hiện qua metric
   - hành động:
