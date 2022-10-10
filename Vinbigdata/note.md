@@ -53,8 +53,8 @@ Các tool cần tìm hiểu: Ansible, Terraform, Terragrunt, Kubectl, Helm, Kust
     - ipv4 and ipv6 block, 
     - subnet (public and private): 
       - có thể thêm 1 hoặc nhiều subnet mỗi AZ, mỗi subnet phải nằm trong 1 AZ và không thể kéo daì đến các zone khác
-      - public: 1 subnet được định tuyến đến 1 internet gateway
-      - private: 1 subnet không được định tuyến đến internet gateway
+      - public: 1 subnet được định tuyến đến 1 internet gateway, 1 instance trong public subnet có thể giao tiếp với internet thông qua địa chỉ IPv4 (public IPv4 address hoặc Elastic IP address)
+      - private: 1 subnet không được định tuyến đến internet gateway, không thể truy cập vào các instance trên một Private Subnet từ internet.
     - routes table: tập hợp các rule được sử dụng để xác định các đường đi
     - internet connectivity:
       - internet gateway: giao tiếp giữa VPC và internet
@@ -114,3 +114,13 @@ Các tool cần tìm hiểu: Ansible, Terraform, Terragrunt, Kubectl, Helm, Kust
 - MongoDB Atlas
 
 ## EKS component
+
+### Authen
+- Access control - IAM: eks tận dụng IAM để thực hiện phân quyền RBAC dựa vào IAM-rol
+  - Nếu cần cấp quyền cho user riêng lẻ => sử dụng aws-auth configmap để map user với k8s rbac cụ thể
+  - số lượng user lớn: IAM role liên kết với user group
+  - sử dụng iam role cho sa
+
+  => các task nên được định nghĩa rõ thành baseline và chuyển hóa thành aws cloudformation tempalate
+
+- Access control - EKS API (eks cluster endpoint)
