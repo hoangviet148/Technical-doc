@@ -115,12 +115,14 @@ Các tool cần tìm hiểu: Ansible, Terraform, Terragrunt, Kubectl, Helm, Kust
 
 ## EKS component
 
-### Authen
-- Access control - IAM: eks tận dụng IAM để thực hiện phân quyền RBAC dựa vào IAM-rol
-  - Nếu cần cấp quyền cho user riêng lẻ => sử dụng aws-auth configmap để map user với k8s rbac cụ thể
-  - số lượng user lớn: IAM role liên kết với user group
-  - sử dụng iam role cho sa
+### Authenticate
+- k8s authen/author overview: 
+  - use AWS IAM Authenticator which has both client and server side.
+  - in short: client send a token (include aws iam identity - user or role - making the API call) which is verified on the server-side by the webhook service
 
-  => các task nên được định nghĩa rõ thành baseline và chuyển hóa thành aws cloudformation tempalate
+- server side EKS auth
+  ![](../Image/server-side-eks-auth.webp)
+  thực hiện exec trong kubeconfig -> trả về  token là url dẫn đến sts -> eks gọi đến url này và xác thực user
 
-- Access control - EKS API (eks cluster endpoint)
+- client side EKS auth
+  ![](../Image/client-side-eks-auth.webp)
