@@ -8,6 +8,7 @@
 
 - Thay đổi config của resource ngoài terraform
 - Terraform functional programing
+- khởi tạo workspace: terraform init
 - biến trong tf: 
   - locals: lưu giá trị và sử dụng lại nhiều lần
   - khi chạy tf apply thì file .tfvars sẽ được sử dụng mặc định để load giá trị cho biến
@@ -37,5 +38,20 @@
 
 - terraform backend
   - local backend
-  - Standard backend
+  ![](../Image/local-backend.webp)
+
+  - Standard backend: S3
+  ![](../Image/standard-backend.webp)
+
   - Remote backend
+   ![](../Image/remote-backend.webp)
+
+- some terraform block
+  - terraform
+  - provider
+  - resource: create infra resource on aws
+  - data: get aws resource info
+  - module
+  - variable: declare variable
+  - output
+  - locals: define constant => local.constant

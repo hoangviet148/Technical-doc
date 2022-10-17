@@ -14,7 +14,7 @@ provider "aws" {
   }
   shared_config_files      = ["~/.aws/config"]
   shared_credentials_files = ["~/.aws/credentials"]
-  profile                  = "aws-prod"
+  profile                  = "prod"
 }
 
 resource "aws_instance" "test" {
@@ -26,16 +26,16 @@ resource "aws_instance" "test" {
   }
 }
 
-resource "aws_s3_bucket" "static" {
-  bucket = "terraform-series-bai3"
-  acl    = "public-read"
-  policy = file("s3_static_policy.json")  # file function to load config
+# resource "aws_s3_bucket" "static" {
+#   bucket = "terraform-series-bai3"
+#   acl    = "public-read"
+#   policy = file("s3_static_policy.json")  # file function to load config
 
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
-}
+#   website {
+#     index_document = "index.html"
+#     error_document = "error.html"
+#   }
+# }
 
 output "ec2" {
   value = {

@@ -1,3 +1,4 @@
 /Bareos/deploy/config/
 /Bareos/deploy/data/
 /Bareos/deploy/postgres/
+/Terraform/ec2/.terraform
