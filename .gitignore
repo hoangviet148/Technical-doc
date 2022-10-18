@@ -1,4 +1,4 @@
 /Bareos/deploy/config/
 /Bareos/deploy/data/
 /Bareos/deploy/postgres/
-/Terraform/ec2/.terraform
+/Terraform/source/prod/ap-southeast-1/prod/ec2/.terraform*
