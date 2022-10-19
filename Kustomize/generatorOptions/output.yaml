@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  baz: qux
+  foo: bar
+kind: ConfigMap
+metadata:
+  annotations:
+    annotations.only.for.generated: othervalue
+  labels:
+    kustomize.generated.resource: somevalue
+  name: my-configmap
