@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: myapp
+  name: myapp-pod
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: alpine:3.6
+    name: myapp-container
+  initContainers:
+  - command:
+    - sh
+    - -c
+    - until nslookup mydb; do echo waiting for mydb; sleep 2; done;
+    image: alpine:3.6
+    name: init-mydb
