@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  common.properties: |-
+    color=blue
+    height=10m
+  plumbing.properties: port=30000
+  secret.properties: dbpassword=mothersMaidenName
+kind: ConfigMap
+metadata:
+  name: dev-my-configmap-v1-6cd8tk87fm

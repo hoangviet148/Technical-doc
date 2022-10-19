@@ -1,0 +1,9 @@
+resources:
+- ../../base
+namePrefix: prod-
+configMapGenerator:
+- name: my-configmap
+  behavior: merge
+  files:
+  - plumbing.properties
+  - secret.properties

@@ -1,0 +1,10 @@
+resources:
+- ../../base
+namePrefix: dev-
+nameSuffix: -v1
+configMapGenerator:
+- name: my-configmap
+  behavior: merge
+  files:
+  - plumbing.properties
+  - secret.properties

@@ -1,0 +1,4 @@
+configMapGenerator:
+- name: my-configmap
+  files:
+  - common.properties
