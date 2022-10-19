@@ -1,0 +1,10 @@
+commonLabels:
+  app: hello
+resources:
+- deployment.yaml
+- service.yaml
+configMapGenerator:
+- name: the-map
+  literals:
+    - altGreeting=Good Morning!
+    - enableRisky="false"

@@ -1,0 +1,11 @@
+namePrefix: staging-
+nameSuffix: -v1
+commonLabels:
+  variant: staging
+  org: acmeCorporation
+commonAnnotations:
+  note: Hello, I am staging!
+resources:
+- ../../base
+patchesStrategicMerge:
+- map.yaml

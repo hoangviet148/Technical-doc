@@ -1,0 +1,84 @@
+apiVersion: v1
+data:
+  altGreeting: Have a pineapple!
+  enableRisky: "true"
+kind: ConfigMap
+metadata:
+  annotations:
+    note: Hello, I am staging!
+  labels:
+    app: hello
+    org: acmeCorporation
+    variant: staging
+  name: staging-the-map-v1-5276h4th55
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    note: Hello, I am staging!
+  labels:
+    app: hello
+    org: acmeCorporation
+    variant: staging
+  name: staging-the-service-v1
+spec:
+  ports:
+  - port: 8666
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello
+    deployment: hello
+    org: acmeCorporation
+    variant: staging
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    note: Hello, I am staging!
+  labels:
+    app: hello
+    org: acmeCorporation
+    variant: staging
+  name: staging-the-deployment-v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello
+      deployment: hello
+      org: acmeCorporation
+      variant: staging
+  template:
+    metadata:
+      annotations:
+        note: Hello, I am staging!
+      labels:
+        app: hello
+        deployment: hello
+        org: acmeCorporation
+        variant: staging
+    spec:
+      containers:
+      - command:
+        - /hello
+        - --port=8080
+        - --enableRiskyFeature=$(ENABLE_RISKY)
+        env:
+        - name: ALT_GREETING
+          valueFrom:
+            configMapKeyRef:
+              key: altGreeting
+              name: staging-the-map-v1-5276h4th55
+        - name: ENABLE_RISKY
+          valueFrom:
+            configMapKeyRef:
+              key: enableRisky
+              name: staging-the-map-v1-5276h4th55
+        image: monopole/hello:1
+        name: the-container
+        ports:
+        - containerPort: 8080
