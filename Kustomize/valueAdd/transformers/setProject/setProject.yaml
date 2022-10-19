@@ -1,0 +1,16 @@
+apiVersion: builtin
+kind: ValueAddTransformer
+metadata:
+  name: dirNameAdd
+
+#  Omitting the 'value:' field means that the current
+#  kustomization root directory name will be used as
+#  the value.
+# value:  not specified!
+
+targets:
+- fieldPath: metadata/namespace
+- selector:
+    kind: IAMPolicyMember
+  fieldPath: spec/resourceRef/external
+  filePathPosition: 2

@@ -1,0 +1,9 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMCustomRole
+metadata:
+  name: engineer
+spec:
+  title: Colorful Engineer
+  permissions:
+  - iap.tunnelInstances.accessViaIAP
+  stage: GA

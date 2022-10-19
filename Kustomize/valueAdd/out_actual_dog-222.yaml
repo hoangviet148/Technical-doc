@@ -1,0 +1,49 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMCustomRole
+metadata:
+  name: engineer
+  namespace: dog-222
+spec:
+  permissions:
+  - iap.tunnelInstances.accessViaIAP
+  stage: GA
+  title: Colorful Engineer
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iap-tunnel-blue
+  namespace: dog-222
+spec:
+  member: user:blue@example.com
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    external: projects/dog-222
+    kind: Project
+  role: roles/engineer
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iap-tunnel-red
+  namespace: dog-222
+spec:
+  member: user:red@example.com
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    external: projects/dog-222
+    kind: Project
+  role: roles/engineer
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iap-tunnel-yellow
+  namespace: dog-222
+spec:
+  member: user:yellow@example.com
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    external: projects/dog-222
+    kind: Project
+  role: roles/engineer

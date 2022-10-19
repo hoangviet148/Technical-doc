@@ -1,0 +1,3 @@
+resources:
+- customroles.yaml
+- policymembers.yaml
